@@ -6,8 +6,9 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
-
+import { Video } from 'src/videos/entities/video.entity';
 @Entity('groups')
 export class Group {
   @PrimaryGeneratedColumn('uuid')
@@ -28,4 +29,7 @@ export class Group {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Video, (video) => video.groupId)
+  videos: Video[];
 }

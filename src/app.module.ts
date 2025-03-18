@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GroupsModule } from './groups/groups.module';
+import { VideosModule } from './videos/videos.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { GroupsModule } from './groups/groups.module';
       inject: [ConfigService],
     }),
     GroupsModule,
+    VideosModule,
   ],
   controllers: [],
   providers: [],
