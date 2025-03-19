@@ -3,8 +3,8 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  OneToOne,
   JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity('videos')
@@ -21,10 +21,10 @@ export class Video {
   @Column()
   url: string;
 
-  @Column()
+  @Column({ type: 'uuid' })
   groupId: string;
 
-  @OneToOne(() => Group, (group) => group.id, { nullable: true })
-  @JoinColumn()
+  @ManyToOne(() => Group, (group) => group.id, { nullable: true })
+  @JoinColumn({ name: 'groupId' })
   group: Group;
 }

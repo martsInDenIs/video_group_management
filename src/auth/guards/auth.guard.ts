@@ -1,7 +1,8 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { JwtService } from '@nestjs/jwt';
+
 import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { JwtService } from '../services';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -23,11 +24,15 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
 
+    if (!token) {
+      return false;
+    }
+
     try {
-      const payload = await this.jwtService.verifyAsync(token);
+      const payload = await this.jwtService.verifyAccessToken(token);
       request['user'] = payload;
       return true;
-    } catch {
+    } catch (error) {
       return false;
     }
   }

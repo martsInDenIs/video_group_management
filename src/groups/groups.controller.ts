@@ -6,27 +6,32 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
 import { GroupsService } from './groups.service';
 import { CreateGroupDto } from './dto/create-group.dto';
 import { UpdateGroupDto } from './dto/update-group.dto';
 import { Role } from 'src/users/role.enum';
 import { Roles } from 'src/auth/decorators';
+import { FindGroupQueryDto } from './dto/find-group-query.dto';
+import { RolesGuard } from 'src/auth/guards';
 
+@UseGuards(RolesGuard)
 @Controller('groups')
 export class GroupsController {
   constructor(private readonly groupsService: GroupsService) {}
 
   @Roles(Role.Editor)
-  @Post()
-  create(@Body() createGroupDto: CreateGroupDto) {
-    return this.groupsService.create(createGroupDto);
+  @Post('create')
+  create(@Body() body: CreateGroupDto) {
+    return this.groupsService.create(body);
   }
 
   @Roles(Role.Viewer, Role.Editor)
   @Get()
-  findAll() {
-    return this.groupsService.findAll();
+  findAll(@Query() query: FindGroupQueryDto) {
+    return this.groupsService.findAll(query);
   }
 
   @Roles(Role.Viewer, Role.Editor)

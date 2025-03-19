@@ -11,5 +11,5 @@ export class CreateGroupDto {
 
   @IsUUID()
   @IsOptional()
-  parentId: string;
+  parentId?: string;
 }

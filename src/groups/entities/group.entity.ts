@@ -4,9 +4,9 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
-  OneToOne,
   JoinColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Video } from 'src/videos/entities/video.entity';
 @Entity('groups')
@@ -20,9 +20,15 @@ export class Group {
   @Column({ nullable: true })
   description: string;
 
-  @OneToOne(() => Group, { nullable: true })
-  @JoinColumn()
+  @ManyToOne(() => Group, (group) => group.parentId)
+  @JoinColumn({ name: 'parentId' })
   parent: Group;
+
+  @Column({ nullable: true })
+  parentId: string;
+
+  @OneToMany(() => Group, (group) => group.parent)
+  children: Group[];
 
   @CreateDateColumn()
   createdAt: Date;

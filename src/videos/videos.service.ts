@@ -4,6 +4,7 @@ import { UpdateVideoDto } from './dto/update-video.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from './entities/video.entity';
+import { FindVideosQueryDto } from './dto/find-videos.query.dto';
 
 @Injectable()
 export class VideosService {
@@ -16,8 +17,30 @@ export class VideosService {
     return this.videoRepository.save(data);
   }
 
-  findAll() {
-    return this.videoRepository.find();
+  async findAll({ pagination, searchBy }: FindVideosQueryDto) {
+    const { page, limit } = pagination;
+    const skip = (page - 1) * limit;
+
+    const queryBuilder = this.videoRepository.createQueryBuilder('video');
+
+    if (searchBy.name) {
+      queryBuilder.andWhere('video.name LIKE :name', {
+        name: `%${searchBy.name}%`,
+      });
+    }
+
+    if (searchBy.description) {
+      queryBuilder.andWhere('video.description LIKE :description', {
+        description: `%${searchBy.description}%`,
+      });
+    }
+
+    const [videos, total] = await queryBuilder
+      .skip(skip)
+      .take(limit)
+      .getManyAndCount();
+
+    return { videos, total };
   }
 
   findOne(id: string) {
