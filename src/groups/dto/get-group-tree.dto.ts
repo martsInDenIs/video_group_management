@@ -20,5 +20,5 @@ export class GetGroupTreeDTO {
   @IsOptional()
   @ValidateNested()
   @Type(() => PaginationDTO)
-  pagination: PaginationDTO;
+  pagination: PaginationDTO = new PaginationDTO();
 }

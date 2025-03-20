@@ -34,7 +34,7 @@ export class FindGroupQueryDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => PaginationDTO)
-  pagination: PaginationDTO;
+  pagination: PaginationDTO = new PaginationDTO();
 
   @ApiProperty({
     type: SearchByDto,
