@@ -23,9 +23,18 @@ export class VideosService {
     /** Add Search By options */
     if (searchBy) {
       Object.entries(searchBy).forEach(([key, value]) => {
-        queryBuilder.andWhere(`video.${key} LIKE :${key}`, {
-          [`${key}`]: `%${value}%`,
-        });
+        switch (key) {
+          case 'groups':
+            queryBuilder.andWhere(`video.groupId IN (:...groups)`, {
+              groups: value,
+            });
+            break;
+          default:
+            queryBuilder.andWhere(`video.${key} LIKE :${key}`, {
+              [`${key}`]: `%${value}%`,
+            });
+            break;
+        }
       });
     }
 
