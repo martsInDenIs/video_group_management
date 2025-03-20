@@ -5,7 +5,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Group } from './entities/group.entity';
 import { FindGroupQueryDto } from './dto/find-group-query.dto';
-
+import { GetGroupTreeDTO } from './dto/get-group-tree.dto';
+import { getTreeRawQuery } from './groups.helpers';
+import { getPaginationSkip } from 'src/common/utils';
 @Injectable()
 export class GroupsService {
   constructor(
@@ -19,7 +21,7 @@ export class GroupsService {
 
   async findAll({ pagination, searchBy }: FindGroupQueryDto) {
     const { page, limit } = pagination;
-    const skip = (page - 1) * limit;
+    const skip = getPaginationSkip(page, limit);
 
     const queryBuilder = this.groupRepository.createQueryBuilder('group');
 
@@ -53,5 +55,15 @@ export class GroupsService {
 
   remove(id: string) {
     return this.groupRepository.delete(id);
+  }
+
+  async getTree({ rootGroup, pagination }: GetGroupTreeDTO) {
+    const skip = getPaginationSkip(pagination.page, pagination.limit);
+
+    const queryParams = rootGroup
+      ? [rootGroup, pagination.limit, skip]
+      : [pagination.limit, skip];
+
+    return this.groupRepository.query(getTreeRawQuery(rootGroup), queryParams);
   }
 }

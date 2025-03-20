@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from './entities/video.entity';
 import { FindVideosQueryDto } from './dto/find-videos.query.dto';
-
+import { getPaginationSkip } from 'src/common/utils';
 @Injectable()
 export class VideosService {
   constructor(
@@ -18,8 +18,7 @@ export class VideosService {
   }
 
   async findAll({ pagination, searchBy }: FindVideosQueryDto) {
-    const { page, limit } = pagination;
-    const skip = (page - 1) * limit;
+    const skip = getPaginationSkip(pagination.page, pagination.limit);
 
     const queryBuilder = this.videoRepository.createQueryBuilder('video');
 
@@ -37,7 +36,7 @@ export class VideosService {
 
     const [videos, total] = await queryBuilder
       .skip(skip)
-      .take(limit)
+      .take(pagination.limit)
       .getManyAndCount();
 
     return { videos, total };

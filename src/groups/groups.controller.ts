@@ -16,6 +16,7 @@ import { Role } from 'src/users/role.enum';
 import { Roles } from 'src/auth/decorators';
 import { FindGroupQueryDto } from './dto/find-group-query.dto';
 import { RolesGuard } from 'src/auth/guards';
+import { GetGroupTreeDTO } from './dto/get-group-tree.dto';
 
 @UseGuards(RolesGuard)
 @Controller('groups')
@@ -32,6 +33,12 @@ export class GroupsController {
   @Get()
   findAll(@Query() query: FindGroupQueryDto) {
     return this.groupsService.findAll(query);
+  }
+
+  @Roles(Role.Editor, Role.Viewer)
+  @Get('tree')
+  getTree(@Query() query: GetGroupTreeDTO) {
+    return this.groupsService.getTree(query);
   }
 
   @Roles(Role.Viewer, Role.Editor)
