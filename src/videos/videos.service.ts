@@ -22,15 +22,12 @@ export class VideosService {
 
     const queryBuilder = this.videoRepository.createQueryBuilder('video');
 
-    if (searchBy.name) {
-      queryBuilder.andWhere('video.name LIKE :name', {
-        name: `%${searchBy.name}%`,
-      });
-    }
-
-    if (searchBy.description) {
-      queryBuilder.andWhere('video.description LIKE :description', {
-        description: `%${searchBy.description}%`,
+    /** Add Search By options */
+    if (searchBy) {
+      Object.entries(searchBy).forEach(([key, value]) => {
+        queryBuilder.andWhere(`video.${key} LIKE :${key}`, {
+          [`${key}`]: `%${value}%`,
+        });
       });
     }
 

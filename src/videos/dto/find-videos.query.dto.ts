@@ -44,5 +44,5 @@ export class FindVideosQueryDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => SearchByDto)
-  searchBy: SearchByDto = new SearchByDto();
+  searchBy?: SearchByDto;
 }

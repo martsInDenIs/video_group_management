@@ -8,6 +8,7 @@ import { FindGroupQueryDto } from './dto/find-group-query.dto';
 import { GetGroupTreeDTO } from './dto/get-group-tree.dto';
 import { getTreeRawQuery } from './groups.helpers';
 import { getPaginationSkip } from 'src/common/utils';
+
 @Injectable()
 export class GroupsService {
   constructor(
@@ -20,29 +21,24 @@ export class GroupsService {
   }
 
   async findAll({ pagination, searchBy }: FindGroupQueryDto) {
-    const { page, limit } = pagination;
-    const skip = getPaginationSkip(page, limit);
+    const skip = getPaginationSkip(pagination.page, pagination.limit);
 
     const queryBuilder = this.groupRepository.createQueryBuilder('group');
 
-    if (searchBy?.name) {
-      queryBuilder.andWhere('group.name LIKE :name', {
-        name: `%${searchBy.name}%`,
+    /** Add Search By options */
+    if (searchBy) {
+      Object.entries(searchBy).forEach(([key, value]) => {
+        queryBuilder.andWhere(`group.${key} LIKE :${key}`, {
+          [`${key}`]: `%${value}%`,
+        });
       });
     }
 
-    if (searchBy?.description) {
-      queryBuilder.andWhere('group.description LIKE :description', {
-        description: `%${searchBy.description}%`,
-      });
-    }
-
-    const [groups, total] = await queryBuilder
+    return queryBuilder
       .skip(skip)
-      .take(limit)
-      .getManyAndCount();
-
-    return { groups, total };
+      .take(pagination.limit)
+      .getManyAndCount()
+      .then(([groups, total]) => ({ groups, total }));
   }
 
   findOne(id: string) {

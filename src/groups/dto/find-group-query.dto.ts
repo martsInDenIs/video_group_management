@@ -29,5 +29,5 @@ export class FindGroupQueryDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => SearchByDto)
-  searchBy: SearchByDto = new SearchByDto();
+  searchBy?: SearchByDto;
 }
