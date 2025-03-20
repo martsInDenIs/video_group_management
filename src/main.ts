@@ -3,9 +3,10 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DatabaseErrorsFilter } from './common/filters';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -14,6 +15,7 @@ async function bootstrap() {
     }),
   );
   app.useGlobalFilters(new DatabaseErrorsFilter());
+  app.set('query parser', 'extended');
 
   const config = new DocumentBuilder()
     .setTitle('Groups API')

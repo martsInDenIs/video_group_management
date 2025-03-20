@@ -39,7 +39,7 @@ export class FindVideosQueryDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => PaginationDTO)
-  pagination: PaginationDTO;
+  pagination: PaginationDTO = new PaginationDTO();
 
   @ApiProperty({
     type: SearchByDto,
