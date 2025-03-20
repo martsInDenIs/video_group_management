@@ -8,7 +8,7 @@ import {
   OneToMany,
   ManyToOne,
 } from 'typeorm';
-import { Video } from 'src/videos/entities/video.entity';
+import { Video } from '../../videos/entities/video.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity('groups')

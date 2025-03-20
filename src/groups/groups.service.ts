@@ -7,7 +7,7 @@ import { Group } from './entities/group.entity';
 import { FindGroupQueryDto } from './dto/find-group-query.dto';
 import { GetGroupTreeDTO } from './dto/get-group-tree.dto';
 import { getTreeRawQuery } from './groups.helpers';
-import { getPaginationSkip } from 'src/common/utils';
+import { getPaginationSkip } from '@/common/utils';
 
 @Injectable()
 export class GroupsService {

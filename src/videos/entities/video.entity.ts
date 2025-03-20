@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Group } from 'src/groups/entities/group.entity';
+import { Group } from '@/groups/entities/group.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

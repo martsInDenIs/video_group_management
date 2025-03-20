@@ -10,8 +10,8 @@ import { UsersService } from './services';
 import { CreateUserDto, UserResponseDTO } from './dto';
 import { HashPasswordPipe } from './pipes';
 import { LoginUserDto } from './dto/login-user.dto';
-import { GenerateTokensInterceptor } from '../auth/interceptors';
-import { Public } from 'src/auth/decorators';
+import { GenerateTokensInterceptor } from '@/auth/interceptors';
+import { Public } from '@/auth/decorators';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @ApiTags('users')

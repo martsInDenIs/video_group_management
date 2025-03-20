@@ -10,8 +10,8 @@ import {
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto, UpdateVideoDto, FindVideosQueryDto } from './dto';
-import { Roles } from 'src/auth/decorators';
-import { Role } from 'src/users/role.enum';
+import { Roles } from '@/auth/decorators';
+import { Role } from '@/users/role.enum';
 import {
   ApiTags,
   ApiOperation,

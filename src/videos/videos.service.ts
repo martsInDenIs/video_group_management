@@ -3,7 +3,7 @@ import { CreateVideoDto, UpdateVideoDto, FindVideosQueryDto } from './dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from './entities/video.entity';
-import { getPaginationSkip } from 'src/common/utils';
+import { getPaginationSkip } from '@/common/utils';
 @Injectable()
 export class VideosService {
   constructor(
