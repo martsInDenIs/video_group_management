@@ -21,7 +21,6 @@ export class UsersController {
   @HttpCode(HttpStatus.CREATED)
   @Post('signup')
   async create(@Body(HashPasswordPipe) body: CreateUserDto): Promise<void> {
-    console.log(body);
     await this.usersService.create(body);
   }
 

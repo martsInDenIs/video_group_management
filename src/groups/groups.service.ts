@@ -16,7 +16,7 @@ export class GroupsService {
     private groupRepository: Repository<Group>,
   ) {}
 
-  create(data: CreateGroupDto) {
+  async create(data: CreateGroupDto) {
     return this.groupRepository.save(data);
   }
 
