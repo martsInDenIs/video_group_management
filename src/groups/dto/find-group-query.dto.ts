@@ -1,31 +1,45 @@
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Group } from '../entities/group.entity';
 import { PaginationDTO } from 'src/common/dtos/pagination.dto';
 
-class SearchByDto implements Partial<Pick<Group, 'name' | 'description'>> {
+export class SearchByDto
+  implements Partial<Pick<Group, 'name' | 'description'>>
+{
+  @ApiProperty({
+    description: 'Search by name',
+    required: false,
+    example: 'Marketing',
+  })
   @IsOptional()
   @IsString()
-  @IsNotEmpty()
   name?: string;
 
-  @IsOptional()
+  @ApiProperty({
+    description: 'Search by description',
+    required: false,
+    example: 'department',
+  })
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   description?: string;
 }
 
 export class FindGroupQueryDto {
+  @ApiProperty({
+    type: PaginationDTO,
+    required: false,
+  })
   @IsOptional()
   @ValidateNested()
   @Type(() => PaginationDTO)
-  pagination: PaginationDTO = new PaginationDTO();
+  pagination: PaginationDTO;
 
+  @ApiProperty({
+    type: SearchByDto,
+    required: false,
+  })
   @IsOptional()
   @ValidateNested()
   @Type(() => SearchByDto)

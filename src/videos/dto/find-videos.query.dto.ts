@@ -1,34 +1,30 @@
 import { Type } from 'class-transformer';
 import {
-  Min,
-  IsNumber,
   IsOptional,
   IsString,
   IsNotEmpty,
   ValidateNested,
 } from 'class-validator';
 import { Video } from '../entities/video.entity';
-
-class PaginationDto {
-  @IsOptional()
-  @IsNumber()
-  @Min(1)
-  @Type(() => Number)
-  page: number = 1;
-
-  @IsOptional()
-  @IsNumber()
-  @Min(1)
-  @Type(() => Number)
-  limit: number = 1;
-}
+import { PaginationDTO } from 'src/common/dtos/pagination.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 class SearchByDto implements Partial<Pick<Video, 'name' | 'description'>> {
+  @ApiProperty({
+    description: 'Search by title',
+    required: false,
+    example: 'NestJS',
+  })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
   name?: string;
 
+  @ApiProperty({
+    description: 'Search by description',
+    required: false,
+    example: 'tutorial',
+  })
   @IsOptional()
   @IsString()
   @IsNotEmpty()
@@ -36,11 +32,19 @@ class SearchByDto implements Partial<Pick<Video, 'name' | 'description'>> {
 }
 
 export class FindVideosQueryDto {
+  @ApiProperty({
+    type: PaginationDTO,
+    required: false,
+  })
   @IsOptional()
   @ValidateNested()
-  @Type(() => PaginationDto)
-  pagination: PaginationDto = new PaginationDto();
+  @Type(() => PaginationDTO)
+  pagination: PaginationDTO;
 
+  @ApiProperty({
+    type: SearchByDto,
+    required: false,
+  })
   @IsOptional()
   @ValidateNested()
   @Type(() => SearchByDto)

@@ -12,18 +12,39 @@ import { HashPasswordPipe } from './pipes';
 import { LoginUserDto } from './dto/login-user.dto';
 import { GenerateTokensInterceptor } from '../auth/interceptors';
 import { Public } from 'src/auth/decorators';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Public()
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOperation({ summary: 'Register new user' })
+  @ApiResponse({
+    status: 201,
+    description: 'User has been successfully created.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request - Invalid input data or email already exists.',
+  })
   @HttpCode(HttpStatus.CREATED)
   @Post('signup')
   async create(@Body(HashPasswordPipe) body: CreateUserDto): Promise<void> {
     await this.usersService.create(body);
   }
 
+  @ApiOperation({ summary: 'Login user' })
+  @ApiResponse({
+    status: 200,
+    description: 'User successfully logged in.',
+    type: UserResponseDTO,
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized - Invalid credentials.',
+  })
   @HttpCode(HttpStatus.OK)
   @UseInterceptors(GenerateTokensInterceptor)
   @Post('login')

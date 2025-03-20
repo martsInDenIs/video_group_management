@@ -1,4 +1,4 @@
-import { PartialType, PickType } from '@nestjs/mapped-types';
+import { PartialType, PickType } from '@nestjs/swagger';
 import { CreateVideoDto } from './create-video.dto';
 
 export class UpdateVideoDto extends PartialType(
