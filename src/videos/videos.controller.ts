@@ -7,11 +7,13 @@ import {
   Param,
   Delete,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto, UpdateVideoDto, FindVideosQueryDto } from './dto';
 import { Roles } from '@/auth/decorators';
 import { Role } from '@/users/role.enum';
+import { RolesGuard } from 'src/auth/guards';
 import {
   ApiTags,
   ApiOperation,
@@ -22,6 +24,7 @@ import { Video } from './entities/video.entity';
 
 @ApiTags('videos')
 @ApiBearerAuth()
+@UseGuards(RolesGuard)
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) {}
