@@ -13,6 +13,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 class SearchByDto implements Partial<Pick<Video, 'name' | 'description'>> {
   @ApiProperty({
+    name: 'searchBy[name]',
     description: 'Search by title',
     required: false,
     example: 'NestJS',
@@ -23,6 +24,7 @@ class SearchByDto implements Partial<Pick<Video, 'name' | 'description'>> {
   name?: string;
 
   @ApiProperty({
+    name: 'searchBy[description]',
     description: 'Search by description',
     required: false,
     example: 'tutorial',
@@ -33,12 +35,10 @@ class SearchByDto implements Partial<Pick<Video, 'name' | 'description'>> {
   description?: string;
 
   @ApiProperty({
+    name: 'searchBy[groups][0]',
     description: 'Search by parent group IDs',
     required: false,
-    example: [
-      '123e4567-e89b-12d3-a456-426614174000',
-      '123e4567-e89b-12d3-a456-426614174001',
-    ],
+    example: '123e4567-e89b-12d3-a456-426614174000',
   })
   @IsOptional()
   @IsArray()
@@ -50,6 +50,10 @@ export class FindVideosQueryDto {
   @ApiProperty({
     type: PaginationDTO,
     required: false,
+    example: {
+      page: 1,
+      limit: 10,
+    },
   })
   @IsOptional()
   @ValidateNested()

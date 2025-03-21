@@ -19,6 +19,7 @@ import {
   ApiOperation,
   ApiResponse,
   ApiBearerAuth,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { Video } from './entities/video.entity';
 
@@ -54,7 +55,7 @@ export class VideosController {
       properties: {
         videos: {
           type: 'array',
-          items: { $ref: '#/components/schemas/Video' },
+          items: { $ref: getSchemaPath(Video) },
         },
         total: {
           type: 'number',

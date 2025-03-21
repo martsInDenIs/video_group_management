@@ -23,11 +23,10 @@ export class UsersController {
   @ApiOperation({ summary: 'Register new user' })
   @ApiResponse({
     status: 201,
-    description: 'User has been successfully created.',
   })
   @ApiResponse({
     status: 400,
-    description: 'Bad Request - Invalid input data or email already exists.',
+    description: 'Duplicate entry: user already exists.',
   })
   @HttpCode(HttpStatus.CREATED)
   @Post('signup')

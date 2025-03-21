@@ -8,6 +8,7 @@ export class SearchByDto
   implements Partial<Pick<Group, 'name' | 'description'>>
 {
   @ApiProperty({
+    name: 'searchBy[name]',
     description: 'Search by name',
     required: false,
     example: 'Marketing',
@@ -17,6 +18,7 @@ export class SearchByDto
   name?: string;
 
   @ApiProperty({
+    name: 'searchBy[description]',
     description: 'Search by description',
     required: false,
     example: 'department',

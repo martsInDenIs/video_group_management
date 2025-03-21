@@ -19,12 +19,16 @@ export class CreateUserDto {
 
   @ApiProperty({
     example: 'password123',
-    description: 'User password (min 6 characters)',
+    description: 'User password',
   })
   @IsString()
   @IsNotEmpty()
   password: string;
 
+  @ApiProperty({
+    example: Role.Viewer,
+    description: 'User role',
+  })
   @IsEnum(Role)
   @IsOptional()
   role: Role;
