@@ -20,7 +20,7 @@ import { AuthModule } from './auth/auth.module';
         database: configService.get('POSTGRES_DB'),
         entities: ['dist/**/*.entity{.ts,.js}'],
         migrations: ['dist/migrations/*.js'],
-        synchronize: process.env.NODE_ENV !== 'production', // не використовуйте в продакшені
+        synchronize: false,
         autoLoadEntities: true,
       }),
       inject: [ConfigService],

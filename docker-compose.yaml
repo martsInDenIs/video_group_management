@@ -1,0 +1,38 @@
+version: '3.9'
+services:
+  app:
+    container_name: app
+    build: .
+    env_file: .env
+    environment:
+      POSTGRES_HOST: db
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      db: 
+        condition: service_healthy
+  db:
+    container_name: db
+    image: postgres:15
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - app-network
+    restart: always
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+
+networks:
+  app-network:
+    driver: bridge
+
+
+volumes:
+  db_data:
