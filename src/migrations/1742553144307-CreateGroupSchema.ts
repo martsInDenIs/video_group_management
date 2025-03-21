@@ -18,7 +18,7 @@ export class CreateGroupSchema1742553144307 implements MigrationInterface {
         ADD CONSTRAINT "FK_groups_parent" 
         FOREIGN KEY ("parentId") 
         REFERENCES "groups"("id") 
-        ON DELETE SET NULL 
+        ON DELETE CASCADE
         ON UPDATE NO ACTION
     `);
   }

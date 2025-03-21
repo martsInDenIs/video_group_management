@@ -19,7 +19,7 @@ export class CreateVideoSchema1742553152556 implements MigrationInterface {
             ADD CONSTRAINT "FK_videos_groups" 
             FOREIGN KEY ("groupId") 
             REFERENCES "groups"("id") 
-            ON DELETE NO ACTION 
+            ON DELETE CASCADE
             ON UPDATE NO ACTION
         `);
   }

@@ -56,7 +56,7 @@ export class Group {
     type: () => [Group],
     description: 'The child groups',
   })
-  @OneToMany(() => Group, (group) => group.parent)
+  @OneToMany(() => Group, (group) => group.parent, { onDelete: 'CASCADE' })
   children: Group[];
 
   @CreateDateColumn()
@@ -65,6 +65,6 @@ export class Group {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Video, (video) => video.groupId)
+  @OneToMany(() => Video, (video) => video.groupId, { onDelete: 'CASCADE' })
   videos: Video[];
 }
